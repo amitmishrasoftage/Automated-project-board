@@ -4,22 +4,26 @@ on:
 
   issues:
     types: [opened, edited]
-  pulll_request:
-    types: [opend, edited]
+  pull_request:
+     types: [opend, edited]
 
 
 jobs:
   assign-to-board:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-    steps:
+    steps: 
       - name: Assign to Project Board
-        uses: actions/github.contex.payload.issue || github.context.payload.pull_request;
-        const projectNumber = '123': // Replace with your project board number
-        const octokit = new github.Github.GitHub(token);
+        uses: action/github-script@v4
+        with:
+          script: |
+            const uses: actions/github.contex.payload.issue || github.context.payload.pull_request;
+            const projectNumber = '123': // Replace with your project board number
+            const octokit = new github.Github.GitHub(token);
 
-        await octokit.projects.createCard({
-          column_id: projectNumber,
-          content_id: issue.id,
-          content_type: 'Issue'
-          });
+
+            await octokit.projects.createCard({
+              column_id: projectNumber,
+              content_id: issue.id,
+              content_type: 'Issue'
+            });
